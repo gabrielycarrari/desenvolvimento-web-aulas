@@ -10,87 +10,49 @@ app.mount(path="/static", app=StaticFiles(directory="static"), name="static")
 
 @app.get("/")
 def get_root():
-    return "Olá, FastAPI"
-
+    return "Olá, FastAPI!"
 
 @app.get("/ola/{nome}")
-def get_ola(nome):
+def get_ola(nome: str):
     return f"Olá, {nome}!"
-
 
 @app.get("/bomdia")
 def get_bomdia(nome: str):
     return f"Bom dia, {nome}!"
 
-
 @app.post("/boatarde")
 def post_boatarde(nome: str = Body(embed=True)):
     return f"Boa tarde, {nome}!"
-
 
 @app.get("/boanoite")
 def get_boanoite(nome: str = Header()):
     return f"Boa noite, {nome}!"
 
-
 @app.get("/navegador")
 def get_navegador(user_agent: str = Header()):
-    return f"Olá, você está usando o navegador {user_agent}!"
-
+    return f"Você está usando o navegador {user_agent}!"
 
 @app.get("/header/{chave}/{valor}")
-def get_header(response: Response, chave: str, valor:str):
+def get_header(response: Response, chave: str, valor: str):
     response.headers[chave] = valor
-    return f"Você me mandou um cabeçalho personalizado!"
-
+    return f"Você me mandou um cabeçalho personalizado"
 
 @app.get("/html")
 def get_html():
     html = """
-        <h1> Olá, FastAPI</h1>
+        <h1>Olá, FastAPI</h1>
         <hr>
         <img src='/static/img/logotipo.svg' style='width=50%'>
     """
     response = HTMLResponse(html)
     return response
 
-
 @app.get("/loja")
 def get_loja():
     response = HTMLResponse(ler_html("index"))
     return response
 
-
-@app.get("/loja/contato")
-def get_contato():
-    response = HTMLResponse(ler_html("contato"))
-    return response
-
-
-@app.get("/loja/produto")
-def get_loja():
-    response = HTMLResponse(ler_html("produto"))
-    return response
-
-
-@app.get("/loja/cadastro")
-def get_loja():
-    response = HTMLResponse(ler_html("cadastro"))
-    return response
-
-@app.get("/loja/carrinho")
-def get_loja():
-    response = HTMLResponse(ler_html("carrinho"))
-    return response
-
-
-@app.get("/loja/entrar")
-def get_loja():
-    response = HTMLResponse(ler_html("entrar"))
-    return response
-
-
-@app.get("/loja/cadastroconfirmado")
-def get_loja():
-    response = HTMLResponse(ler_html("cadastroconfirmado"))
+@app.get("/loja/{arquivo}")
+def get_loja_arquivo(arquivo: str):
+    response = HTMLResponse(ler_html(arquivo))
     return response
