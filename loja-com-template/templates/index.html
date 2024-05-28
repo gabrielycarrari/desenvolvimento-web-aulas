@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block subtitulo %}Página Principal{% endblock %}
+{% block conteudo %}
+    <div class="container mt-3">
+        <div id="carouselPropagandas" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="/static/img/banners/banner1.png" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/img/banners/banner1.png" class="d-block w-100">
+                </div>
+                <div class="carousel-item">
+                    <img src="/static/img/banners/banner1.png" class="d-block w-100">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPropagandas" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselPropagandas" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    </div>
+    <main class="container my-3">
+        <h1 class="display-5"><b>Produtos em Destaque</b></h1>
+        <hr>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-6 g-3">
+            {% for i in range(12) %}
+            <div class="col">
+                <div class="card">
+                    <a href="/loja/produto">
+                        <img src="/static/img/produtos/0004.jpg" class="card-img-top w-100">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <a href="/loja/produto" class="text-decoration-none text-black">Air Pods Pro</a>
+                        </h5>
+                        <p class="card-text text-center">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex, maxime.
+                        </p>
+                        <p class="lead text-danger text-center">
+                            R$ 2.999,00
+                        </p>
+                        <p class="text-center mb-0">
+                            <a href="/loja/carrinho" class="btn btn-danger">
+                                <i class="bi bi-cart-plus"></i>
+                                Adicionar ao Carrinho
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock %}

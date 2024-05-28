@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block subtitulo %}Cadastro{% endblock %}
+{% block conteudo %}
+    <main class="container my-3">
+        <h1 class="display-5"><b>Cadastre-se!</b></h1>
+        <hr>
+        <form class="row">
+            <div class="col-12 col-lg-6">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nome" placeholder=" ">
+                    <label for="nome">Nome Completo</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="cpf" placeholder=" ">
+                    <label for="cpf">CPF</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="date" class="form-control" id="dataNascimento" placeholder=" ">
+                    <label for="dataNascimento">Data de Nascimento</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea id="endereco" class="form-control" style="height: 120px" placeholder=" "></textarea>
+                    <label for="endereco">Endereço</label>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" placeholder=" ">
+                    <label for="email">E-mail</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="telefone" placeholder=" ">
+                    <label for="telefone">Telefone</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="senha" placeholder=" ">
+                    <label for="senha">Senha</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="confsenha" placeholder=" ">
+                    <label for="confsenha">Confirmação de Senha</label>
+                </div>
+                <div>
+                    <a href="/loja/cadastroconfirmado" class="btn btn-danger btn-lg">Criar Meu Cadastro!</a>
+                </div>
+            </div>
+        </form>
+    </main>
+{% endblock %}
