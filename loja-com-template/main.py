@@ -1,40 +1,18 @@
-from fastapi import Body, FastAPI, Header, Request, Response
-from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
+import uvicorn
+from repositories.produto_repo import ProdutoRepo
+from routes import main_routes, cliente_routes
 
-from ler_html import ler_html
+ProdutoRepo.criar_tabela()
+ProdutoRepo.inserir_produtos_json("sql/produtos.json")
 
 app = FastAPI()
 
-templates = Jinja2Templates(directory = "templates")
 app.mount(path="/static", app=StaticFiles(directory="static"), name="static")
 
-@app.get("/")
-def get_root(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+app.include_router(main_routes.router)
+app.include_router(cliente_routes.router)
 
-@app.get("/contato")
-def get_root(request: Request):
-    return templates.TemplateResponse("contato.html", {"request": request})
-
-@app.get("/cadastro")
-def get_root(request: Request):
-    return templates.TemplateResponse("cadastro.html", {"request": request})
-
-@app.get("/entrar")
-def get_root(request: Request):
-    return templates.TemplateResponse("entrar.html", {"request": request})
-
-@app.get("/pedidos")
-def get_root(request: Request):
-    return templates.TemplateResponse("pedidos.html", {"request": request})
-
-@app.get("/perfil")
-def get_root(request: Request):
-    return templates.TemplateResponse("perfil.html", {"request": request})
-
-@app.get("/loja/{arquivo}")
-def get_loja_arquivo(arquivo: str):
-    response = HTMLResponse(ler_html(arquivo))
-    return response
+if __name__ == "__main__":
+    uvicorn.run(app="main:app", port=8000, reload=True)
