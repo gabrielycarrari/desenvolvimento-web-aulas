@@ -1,3 +1,4 @@
+import math
 from fastapi import APIRouter, Request
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
@@ -37,6 +38,8 @@ def get_produto(request: Request, id: int):
     return templates.TemplateResponse("produto.html", {"request": request, "produto": produto})
 
 @router.get("/buscar")
-def get_root(request: Request, q:str):
-    produtos = ProdutoRepo.obter_busca(q)
-    return templates.TemplateResponse("buscar.html", {"request": request, "produtos": produtos})
+def get_root(request: Request, q: str, p: int = 1, tp: int = 6, o: int = 1):
+    produtos = ProdutoRepo.obter_busca(q, p, tp, o)
+    qtde_produtos = ProdutoRepo.obter_quantidade_busca(q)
+    qtde_paginas = math.ceil(qtde_produtos / float(tp))
+    return templates.TemplateResponse("buscar.html", {"request": request, "produtos": produtos, "quantidade_paginas": qtde_paginas, "tamanho_pagina": tp, "pagina_atual": p, "termo_busca": q, "ordem": o})

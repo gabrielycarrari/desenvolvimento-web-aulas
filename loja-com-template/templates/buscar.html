@@ -1,90 +1,11 @@
 {% extends "base.html" %}
-{% block subtitulo %}Resultados da Busca por '{{q}}'{% endblock %}
+{% block subtitulo %}Resultados da Busca por '{{ termo_busca }}'{% endblock %}
 {% block conteudo %}
     <main class="container my-3">
         <h1 class="display-5"><b>Busca de Produtos</b></h1>
         <hr>
-        <div class="d-flex justify-content-start">
-            <nav class="me-3">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <span>&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <span>&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div>
-                <select name="filtro" id="filtro" class="form-control">
-                    <option value="">Ordenar por...</option>
-                    <option value="1">Nome</option>
-                    <option value="2">Menor Preço</option>
-                    <option value="3">Maior Preço</option>
-                </select>
-            </div>
-        </div>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-6 g-3 mb-3">
-            {% for p in produtos %}
-            <div class="col">
-                <div class="card">
-                    <a href="/produto/{{p.id}}">
-                        <img src="/static/img/produtos/{{'{:04d}'.format(p.id)}}.jpg" class="card-img-top w-100">
-                    </a>
-                    <div class="card-body">
-                        <h5 class="card-title text-center">
-                            <a href="/produto/{{p.id}}" class="text-decoration-none text-black">{{p.nome}}</a>
-                        </h5>
-                        <p class="card-text text-center texto-3-linhas">
-                            {{p.descricao}}
-                        </p>
-                        <p class="lead text-danger text-center">
-                            R$ {{"{:,.2f}".format(p.preco)}}
-                        </p>
-                        <p class="text-center mb-0">
-                            <a href="/carrinho?id_produto={{p.id}}" class="btn btn-danger">
-                                <i class="bi bi-cart-plus"></i>
-                                Adicionar ao Carrinho
-                            </a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="d-flex justify-content-start">
-            <nav class="me-3">
-                <ul class="pagination mb-0">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <span>&laquo;</span>
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <span>&raquo;</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-            <div>
-                <select name="filtro" id="filtro" class="form-control">
-                    <option value="">Ordenar por...</option>
-                    <option value="1">Nome</option>
-                    <option value="2">Menor Preço</option>
-                    <option value="3">Maior Preço</option>
-                </select>
-            </div>
-        </div>
+        {% include "paging.html" %}
+        {% include "grid_produtos.html"%}
+        {% include "paging.html" %}
     </main>
 {% endblock %}

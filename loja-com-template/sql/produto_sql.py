@@ -43,5 +43,11 @@ SQL_OBTER_BUSCA = """
     SELECT id, nome, preco, descricao, estoque
     FROM produto
     WHERE nome LIKE ? OR descricao LIKE ?
-    ORDER BY nome
+    ORDER BY #1
+    LIMIT ? OFFSET ?
+"""
+
+SQL_OBTER_QUANTIDADE_BUSCA = """
+    SELECT COUNT(*) FROM produto
+    WHERE nome LIKE ? OR descricao LIKE ?
 """
