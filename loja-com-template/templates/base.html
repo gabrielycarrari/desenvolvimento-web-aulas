@@ -13,7 +13,35 @@
 
 <body class="d-flex flex-column min-vh-100">
     {% include "header.html" %}
-    {% block conteudo %}{% endblock %}
+    <main class="container mt-3">
+        <div class="row">
+            <div class="col-12">
+                {% if not message_success: %}
+                {%- set message_success = request.cookies.get("message_success") -%}
+                {% endif %}
+                {% if not message_warning: %}
+                {%- set message_warning = request.cookies.get("message_warning") -%}
+                {% endif %}
+                {% if not message_danger: %}
+                {%- set message_danger = request.cookies.get("message_danger") -%}
+                {% endif %}
+
+                {%- if message_success: -%}
+                {%- include "message_success.html" with context -%}
+                {%- endif -%}
+                {%- if message_warning: -%}
+                {%- include "message_warning.html" with context -%}
+                {%- endif -%}
+                {%- if message_danger: -%}
+                {%- include "message_danger.html" with context -%}
+                {%- endif -%}
+            </div>
+            <div class="col-12">
+                {% block topo %}{% endblock %}
+            </div>
+        </div>
+        {% block conteudo %}{% endblock %}
+    </main>
     {% include "footer.html" %}
     <script src="/static/lib/bootstrap/bootstrap.bundle.min.js"></script>
 </body>
