@@ -6,7 +6,6 @@ from sql.produto_sql import *
 from util.database import obter_conexao
 
 
-
 class ProdutoRepo():
 
     @classmethod
@@ -41,7 +40,6 @@ class ProdutoRepo():
                 tuplas = cursor.execute(SQL_OBTER_TODOS).fetchall()
                 produtos = [Produto(*t) for t in tuplas]
                 return produtos
-
         except sqlite3.Error as ex:
             print(ex)
             return None
@@ -58,24 +56,22 @@ class ProdutoRepo():
                     produto.estoque,
                     produto.id
                 ))
-                if cursor.rowcount > 0:
-                    return True
+                return(cursor.rowcount > 0)
         except sqlite3.Error as ex:
             print(ex)
             return False
-
+        
     @classmethod
     def excluir(cls, id: int) -> bool:
         try:
             with obter_conexao() as conexao:
                 cursor = conexao.cursor()
                 cursor.execute(SQL_EXCLUIR, (id,))
-                if cursor.rowcount > 0:
-                    return True
+                return (cursor.rowcount > 0)
         except sqlite3.Error as ex:
             print(ex)
             return False
-        
+    
     @classmethod
     def obter_um(cls, id: int) -> Optional[Produto]:
         try:
@@ -84,7 +80,6 @@ class ProdutoRepo():
                 tupla = cursor.execute(SQL_OBTER_UM, (id,)).fetchone()
                 produto = Produto(*tupla)
                 return produto
-
         except sqlite3.Error as ex:
             print(ex)
             return None
@@ -96,11 +91,10 @@ class ProdutoRepo():
                 cursor = conexao.cursor()
                 tupla = cursor.execute(SQL_OBTER_QUANTIDADE).fetchone()
                 return int(tupla[0])
-
         except sqlite3.Error as ex:
             print(ex)
             return None
-
+        
     @classmethod
     def inserir_produtos_json(cls, arquivo_json: str):
         if ProdutoRepo.obter_quantidade() == 0:
@@ -111,35 +105,31 @@ class ProdutoRepo():
 
     @classmethod
     def obter_busca(cls, termo: str, pagina: int, tamanho_pagina: int, ordem: int) -> List[Produto]:
-        termo = "%"+ termo + "%"
-        offset = (pagina -1) * tamanho_pagina
-
+        termo = "%"+termo+"%"
+        offset = (pagina - 1) * tamanho_pagina
         match (ordem):
             case 1: SQL_OBTER_BUSCA_ORDENADA = SQL_OBTER_BUSCA.replace("#1", "nome")
             case 2: SQL_OBTER_BUSCA_ORDENADA = SQL_OBTER_BUSCA.replace("#1", "preco ASC")
             case 3: SQL_OBTER_BUSCA_ORDENADA = SQL_OBTER_BUSCA.replace("#1", "preco DESC")
             case _: SQL_OBTER_BUSCA_ORDENADA = SQL_OBTER_BUSCA.replace("#1", "nome")
-
         try:
             with obter_conexao() as conexao:
                 cursor = conexao.cursor()
                 tuplas = cursor.execute(SQL_OBTER_BUSCA_ORDENADA, (termo, termo, tamanho_pagina, offset)).fetchall()
                 produtos = [Produto(*t) for t in tuplas]
                 return produtos
-
         except sqlite3.Error as ex:
             print(ex)
             return None
         
     @classmethod
     def obter_quantidade_busca(cls, termo: str) -> Optional[int]:
-        termo = "%"+ termo + "%"
+        termo = "%"+termo+"%"
         try:
             with obter_conexao() as conexao:
                 cursor = conexao.cursor()
                 tupla = cursor.execute(SQL_OBTER_QUANTIDADE_BUSCA, (termo, termo)).fetchone()
                 return int(tupla[0])
-
         except sqlite3.Error as ex:
             print(ex)
             return None

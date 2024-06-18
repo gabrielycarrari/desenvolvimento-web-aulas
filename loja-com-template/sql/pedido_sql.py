@@ -27,7 +27,7 @@ SQL_ALTERAR = """
 """
 
 SQL_EXCLUIR = """
-    DELETE FROM pedido
+    DELETE FROM pedido    
     WHERE id=?
 """
 
@@ -42,7 +42,7 @@ SQL_OBTER_QUANTIDADE = """
 """
 
 SQL_OBTER_PERIODO = """
-    SELECT SELECT id, data_hora, valor_total, endereco, estado, id_cliente, cliente.nome AS nome_cliente
+    SELECT id, data_hora, valor_total, endereco, estado, id_cliente, cliente.nome AS nome_cliente
     FROM pedido LEFT JOIN cliente ON id_cliente = cliente.id
     WHERE data_hora BETWEEN ? AND ?
     ORDER BY data_hora DESC
@@ -54,8 +54,8 @@ SQL_OBTER_QUANTIDADE_PERIODO = """
 """
 
 SQL_OBTER_POR_CLIENTE = """
-    SELECT SELECT id, data_hora, valor_total, endereco, estado
+    SELECT id, data_hora, valor_total, endereco, estado
     FROM pedido
-    WHERE (id_cliente = ?) AND (data_hora BETWEEN ? AND ?) 
+    WHERE (id_cliente = ?) AND (data_hora BETWEEN ? AND ?)
     ORDER BY id DESC
 """

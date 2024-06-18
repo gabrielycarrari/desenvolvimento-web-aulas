@@ -24,7 +24,7 @@ SQL_OBTER_POR_PEDIDO = """
 """
 
 SQL_OBTER_QUANTIDADE_POR_PEDIDO_PRODUTO = """
-    SELECT COUNT(*) 
+    SELECT COUNT(*)
     FROM item_pedido
     WHERE id_pedido=? AND id_produto=?
 """
@@ -36,7 +36,7 @@ SQL_ALTERAR = """
 """
 
 SQL_EXCLUIR = """
-    DELETE FROM item_pedido
+    DELETE FROM item_pedido    
     WHERE id_pedido=? AND id_produto=?
 """
 
