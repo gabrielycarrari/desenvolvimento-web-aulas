@@ -22,20 +22,38 @@ SQL_OBTER_POR_PEDIDO = """
     WHERE id_pedido=?
 """
 
-SQL_OBTER_QUANTIDADE_PRODUTO = """
+SQL_OBTER_QUANTIDADE_POR_PRODUTO = """
     SELECT COUNT(*)
     FROM item_pedido
     WHERE id_pedido=? AND id_produto=?
 """
 
-SQL_ALTERAR = """
+SQL_ALTERAR_VALOR_PRODUTO = """
     UPDATE item_pedido
-    SET quantidade=?, valor_produto=?
+    SET valor_produto=?
+    WHERE id_pedido=? AND id_produto=?
+"""
+
+SQL_ALTERAR_QUANTIDADE_PRODUTO = """
+    UPDATE item_pedido
+    SET quantidade=?
+    WHERE id_pedido=? AND id_produto=?
+"""
+
+SQL_AUMENTAR_QUANTIDADE_PRODUTO = """
+    UPDATE item_pedido
+    SET quantidade=quantidade+1
+    WHERE id_pedido=? AND id_produto=?
+"""
+
+SQL_DIMINUIR_QUANTIDADE_PRODUTO = """
+    UPDATE item_pedido
+    SET quantidade=quantidade-1
     WHERE id_pedido=? AND id_produto=?
 """
 
 SQL_EXCLUIR = """
-    DELETE FROM item_pedido    
+    DELETE FROM item_pedido
     WHERE id_pedido=? AND id_produto=?
 """
 

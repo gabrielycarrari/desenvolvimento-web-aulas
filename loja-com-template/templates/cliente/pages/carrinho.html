@@ -15,25 +15,25 @@
         </tr>
     </thead>
     <tbody>
-        {% for i in range(1,5)%}
+        {% for i in itens %}
         <tr>
             <td>
-                <a href="/produto/{{i}}">
-                    <img src="/static/img/produtos/{{'{:04d}'.format(i)}}.jpg" style="height: 48px;" class="rounded">
+                <a href="/produto/{{i.id_produto}}">
+                    <img src="/static/img/produtos/{{'{:04d}'.format(i.id_produto)}}.jpg" style="height: 48px;" class="rounded">
                 </a>
             </td>
-            <td><a href="/produto/{{i}}">Air Pods Pro</a></td>
-            <td>2.999,00</td>
+            <td><a href="/produto/{{i.id_produto}}">{{ i.nome_produto }}</a></td>
+            <td>{{ i.valor_produto }}</td>
             <td>
                 <button class="btn btn-sm btn-danger">
                     <i class="bi bi-dash"></i>
                 </button>
-                <span class="mx-2">2</span>
+                <span class="mx-2">{{ i.quantidade }}</span>
                 <button class="btn btn-sm btn-danger">
                     <i class="bi bi-plus"></i>
                 </button>
             </td>
-            <td>5.998,00</td>
+            <td>{{ i.valor_item }}</td>
             <td>
                 <button class="btn btn-danger btn-sm">
                     <i class="bi bi-trash"></i>

@@ -1,10 +1,16 @@
-from fastapi import APIRouter, Request, status
+from datetime import datetime
+from fastapi import APIRouter, Query, Request, status
 from fastapi.responses import JSONResponse, RedirectResponse
 
 from dtos.alterar_cliente_dto import AlterarClienteDTO
 from dtos.alterar_senha_dto import AlterarSenhaDTO
 from models.cliente_model import Cliente
+from models.item_pedido_model import ItemPedido
+from models.pedido_model import Pedido
 from repositories.cliente_repo import ClienteRepo
+from repositories.item_pedido_repo import ItemPedidoRepo
+from repositories.pedido_repo import PedidoRepo
+from repositories.produto_repo import ProdutoRepo
 from util.auth import conferir_senha, obter_hash_senha
 from util.cookies import (
     adicionar_mensagem_erro,
@@ -73,22 +79,6 @@ async def post_senha(request: Request, alterar_dto: AlterarSenhaDTO):
     return response
 
 
-@router.get("/carrinho")
-async def get_carrinho(request: Request):
-    return templates.TemplateResponse(
-        "pages/carrinho.html",
-        {"request": request},
-    )
-
-
-@router.get("/carrinho")
-async def get_carrinho(request: Request):
-    return templates.TemplateResponse(
-        "pages/carrinho.html",
-        {"request": request},
-    )
-
-
 @router.get("/sair", response_class=RedirectResponse)
 async def get_sair(request: Request):
     if request.state.cliente:
@@ -97,3 +87,32 @@ async def get_sair(request: Request):
     excluir_cookie_auth(response)
     adicionar_mensagem_sucesso(response, "Saída realizada com sucesso!")
     return response
+
+
+@router.get("/carrinho")
+async def get_carrinho(request: Request, id_produto: int = Query(0)):
+    if id_produto:
+        pedido_carrinho = PedidoRepo.obter_por_estado(request.state.cliente.id, 1)
+        if pedido_carrinho == None:
+            pedido_carrinho = Pedido(0, datetime.now(), 0, request.state.cliente.endereco, 1, request.state.cliente.id)
+            pedido_carrinho = PedidoRepo.inserir(pedido_carrinho)
+        
+        qtde = ItemPedidoRepo.obter_quantidade_por_produto(pedido_carrinho.id, id_produto)
+
+        if qtde == 0:
+            produto = ProdutoRepo.obter_um(id_produto)
+            item_pedido = ItemPedido(pedido_carrinho.id, id_produto, produto.nome, produto.preco, 1, 0)
+            ItemPedidoRepo.inserir(item_pedido)
+        else:
+            ItemPedidoRepo.aumentar_quantidade_produto(pedido_carrinho.id, id_produto)
+
+    pedido_carrinho = PedidoRepo.obter_por_estado(request.state.cliente.id, 1)
+    if pedido_carrinho:
+        itens_pedido = ItemPedidoRepo.obter_por_pedido(pedido_carrinho.id)
+    else:
+        itens_pedido = []
+
+    return templates.TemplateResponse(
+        "pages/carrinho.html",
+        {"request": request, "itens": itens_pedido},
+    )
