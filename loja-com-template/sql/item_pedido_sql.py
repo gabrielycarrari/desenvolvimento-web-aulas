@@ -20,10 +20,9 @@ SQL_OBTER_POR_PEDIDO = """
     SELECT id_pedido, id_produto, nome_produto, valor_produto, quantidade, valor_item
     FROM item_pedido
     WHERE id_pedido=?
-    ORDER BY #1
 """
 
-SQL_OBTER_QUANTIDADE_POR_PEDIDO_PRODUTO = """
+SQL_OBTER_QUANTIDADE_PRODUTO = """
     SELECT COUNT(*)
     FROM item_pedido
     WHERE id_pedido=? AND id_produto=?
